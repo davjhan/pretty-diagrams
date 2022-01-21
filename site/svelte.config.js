@@ -11,6 +11,7 @@ const config = {
         }),
         vite: {
             optimizeDeps: {
+                exclude: ['reefjs']
             },
             resolve: {
                 alias: {
