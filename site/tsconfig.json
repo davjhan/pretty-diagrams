@@ -25,14 +25,8 @@
     "allowJs": true,
     "checkJs": true,
     "paths": {
-      "$lib/*": [
-        "src/lib/*"
-      ],
-      "$views/*": [
-        "src/lib/views/*"
-      ],
-      "$static/*": [
-        "static"
+      "$engine/*": [
+        "../engine/*"
       ]
     }
   },

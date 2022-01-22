@@ -1,8 +1,12 @@
 import adapter from '@sveltejs/adapter-static'
 import path from 'path'
+import preprocess from 'svelte-preprocess'
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
+    preprocess: [
+        preprocess(),
+    ],
     kit: {
         // hydrate the <div id="svelte"> element in src/app.html
         target: '#svelte',
@@ -15,8 +19,9 @@ const config = {
             },
             resolve: {
                 alias: {
-                    $static: path.resolve('/static'),
-                    $views: path.resolve('src/lib/views')
+                    '$static': path.resolve('/static'),
+                    '$components': path.resolve('src/components'),
+                    '$engine': path.resolve('../engine')
                 }
             },
             server: {
@@ -25,6 +30,7 @@ const config = {
                     followSymlinks: true
                 }
             }
+
         }
     },
 }
