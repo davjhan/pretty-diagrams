@@ -3,8 +3,8 @@ import { RenderContext } from './renderer'
 import { Arrow, SchemaDocument } from './schema'
 import { Marker, PathArray, PointArray, Svg } from '@svgdotjs/svg.js'
 
-const ARROW_WIDTH = 2
-const ARROW_STROKE = 6
+const ARROW_WIDTH = 3
+const ARROW_STROKE = 8
 const FONT_SIZE = 14
 export function drawArrow(context: RenderContext, arrow: Arrow):DrawnArrow {
 	const from = context.domLayer.querySelector(`#${ arrow.from }`).getBoundingClientRect()
@@ -29,10 +29,15 @@ export function drawArrow(context: RenderContext, arrow: Arrow):DrawnArrow {
 			add.circle(2).fill(colors.ink)
 		})
 	context.svg.polyline(path)
-		.stroke({ color: colors.white, width: ARROW_WIDTH, linecap: 'round' })
+		.stroke({ color: colors.white, width: ARROW_WIDTH, linecap: 'square' })
 		.marker('end', 4, 4, (add: Marker) => {
 			add.circle(4).fill(colors.white)
 		})
+
+	context.svg.text(arrow.text)
+		.move(...start)
+		.dy(-24)
+		.font({ size: 10, weight: 600 })
 	return {
 		path
 	}
@@ -46,7 +51,7 @@ const positions = ['top-left', 'top-mid', 'top-right'
 type Position = typeof positions[number]
 
 const OFFSET = 4
-const INSET = 1
+const INSET = 2
 function getPositionOnRect(rect:DOMRect, position:Position):[number,number]{
 	switch (position){
 		case 'top-left':
