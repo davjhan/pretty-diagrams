@@ -1,20 +1,27 @@
 <script>
     import { onMount } from 'svelte'
-    import { create } from '$engine/renderer'
-
-    export let data
-    let root
+    import { drawArrows, planBlocks } from '$engine/renderer'
+    import { SVG } from '@svgdotjs/svg.js'
+    export let schema
+    let domLayer
     onMount(() => {
-        const blocks = create(document, data)
-        root.appendChild(blocks)
-        const sizes = blocks.querySelector('#Bowl').getBoundingClientRect()
-        console.log(`bowl`, sizes)
+        console.log(`schema`, schema)
+        const blocks = planBlocks(document, schema)
+        domLayer.appendChild(blocks)
+        const documentSize = domLayer.getBoundingClientRect()
+        const svg = SVG()
+
+        svg.addTo("#front-svg-layer").size(documentSize.width,documentSize.height)
+        .viewbox(documentSize.x,documentSize.y,documentSize.width,documentSize.height)
+        drawArrows({svg, schema, domLayer:domLayer, rootBounds:documentSize})
+
     })
 </script>
 
 <div class='card'>
     <div class='card-header label'>Output</div>
-    <div class='p-8' bind:this={root}>
-
+    <div class='p-8 static' id='container'>
+        <div id='blocks-layer' bind:this={domLayer}></div>
+        <div id='front-svg-layer' class='absolute pointer-events-none'></div>
     </div>
 </div>

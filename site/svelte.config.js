@@ -1,7 +1,6 @@
-import adapter from '@sveltejs/adapter-static'
 import path from 'path'
 import preprocess from 'svelte-preprocess'
-
+import adapter from '@sveltejs/adapter-static'
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
     preprocess: [
@@ -10,12 +9,10 @@ const config = {
     kit: {
         // hydrate the <div id="svelte"> element in src/app.html
         target: '#svelte',
-        adapter: adapter({
-            fallback: '404.html'
-        }),
+        adapter: adapter(),
         vite: {
             optimizeDeps: {
-                exclude: ['reefjs']
+                exclude: ['broth-css']
             },
             resolve: {
                 alias: {
@@ -28,6 +25,9 @@ const config = {
                 host: '0.0.0.0',
                 watch: {
                     followSymlinks: true
+                },
+                fs: {
+                    allow: ['.yalc']
                 }
             }
 

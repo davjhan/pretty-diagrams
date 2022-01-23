@@ -1,11 +1,10 @@
 <script lang='ts'>
-	import type { Schema } from '$engine/renderer'
+	import type { SchemaDocument } from '$engine/schema'
 	import RenderFrame from '../components/RenderFrame.svelte'
 
-	const exampleData: Schema = {
-		name: 'root',
+	const exampleData: SchemaDocument = {
 		dir: 'hor',
-		children: [{
+		blocks: [{
 			name: 'Grocery Store',
 			children: [{
 				name: 'Carrots',
@@ -26,7 +25,12 @@
 				name: 'Knife',
 			},
 			]
-		}]
+		}],
+        arrows: [{
+			text: 'This is a long label',
+			from: 'Carrots',
+            to: 'Bowl',
+        }]
 	}
 </script>
 <main class='flex flex-col mt-32'>
@@ -34,7 +38,7 @@
 
         <div class='flex-grow'>
 
-            <RenderFrame data={exampleData} />
+            <RenderFrame schema={exampleData} />
         </div>
         <div class='card flex-grow bg-shade '>
             <div class='card-header label'>Code</div>
