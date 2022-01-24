@@ -12,3 +12,7 @@ export function processModel(input:string):ModelDocument{
 	const raw = YAML.parse(input) // May throw errors.
 	return Joi.attempt(raw, ModelDocumentSchema)
 }
+
+export function modelToYaml(obj:Object):string{
+    return YAML.stringify(obj)
+}

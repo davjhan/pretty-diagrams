@@ -1,14 +1,19 @@
 <script lang='ts'>
+	import { modelToYaml } from '$engine/modelProcessor'
 	import type { ModelDocument } from '$engine/schema'
 	import { overlap, simple } from '$engine/examples'
 	import { def } from '$engine/yamlExamples'
 	import CodeEditor from '../components/CodeEditor.svelte'
 	import RenderFrame from '../components/RenderFrame.svelte'
 
-	const exampleYaml= def
+	let modelInput= def
     let validModel
-    function onModelUpdate(e){
+    function onUserModelUpdate(e){
 	    validModel = e.detail
+    }
+    function onComputedModelUpdate(e){
+	    console.log(`computed`, e.detail)
+	    modelInput = modelToYaml(e.detail)
     }
 </script>
 <main class='flex flex-col mt-12'>
@@ -16,9 +21,11 @@
 
         <div class='flex-grow' >
             {#key validModel}
-                <RenderFrame model={validModel} />
+                <RenderFrame model={validModel} on:computedModelUpdate={onComputedModelUpdate}/>
             {/key}
         </div>
-        <CodeEditor model={exampleYaml} on:modelUpdate={onModelUpdate}/>
+        {#key modelInput}
+            <CodeEditor modelInput={modelInput} on:userModelUpdate={onUserModelUpdate}/>
+        {/key}
     </div>
 </main>
