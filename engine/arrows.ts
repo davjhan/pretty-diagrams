@@ -1,12 +1,12 @@
 import { colors } from './colors'
 import { RenderContext } from './renderer'
-import { Arrow, SchemaDocument } from './schema'
+import { ArrowModel, ModelDocument } from './schema'
 import { Marker, PathArray, PointArray, Svg } from '@svgdotjs/svg.js'
 
 const ARROW_WIDTH = 3
 const ARROW_STROKE = 8
 const FONT_SIZE = 14
-export function drawArrow(context: RenderContext, arrow: Arrow):DrawnArrow {
+export function drawArrow(context: RenderContext, arrow: ArrowModel):DrawnArrow {
 	const from = context.domLayer.querySelector(`#${ arrow.from }`).getBoundingClientRect()
 	const to = context.domLayer.querySelector(`#${ arrow.to }`).getBoundingClientRect()
 
@@ -34,10 +34,10 @@ export function drawArrow(context: RenderContext, arrow: Arrow):DrawnArrow {
 			add.circle(4).fill(colors.white)
 		})
 
-	context.svg.text(arrow.text)
-		.move(...start)
-		.dy(-24)
-		.font({ size: 10, weight: 600 })
+//	context.svg.text(arrow.text)
+//		.move(...start)
+//		.dy(-24)
+//		.font({ size: 14, weight: 600 })
 	return {
 		path
 	}

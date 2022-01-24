@@ -1,24 +1,24 @@
 <script lang='ts'>
-	import type { SchemaDocument } from '$engine/schema'
+	import type { ModelDocument } from '$engine/schema'
 	import { overlap, simple } from '$engine/examples'
+	import { def } from '$engine/yamlExamples'
+	import CodeEditor from '../components/CodeEditor.svelte'
 	import RenderFrame from '../components/RenderFrame.svelte'
 
-	const exampleData: SchemaDocument = overlap
+	const exampleYaml= def
+    let validModel
+    function onModelUpdate(e){
+	    validModel = e.detail
+    }
 </script>
-<main class='flex flex-col mt-32'>
+<main class='flex flex-col mt-12'>
     <div class='gap-4'>
 
-        <div class='flex-grow'>
-
-            <RenderFrame schema={exampleData} />
+        <div class='flex-grow' >
+            {#key validModel}
+                <RenderFrame model={validModel} />
+            {/key}
         </div>
-        <div class='card flex-grow bg-shade '>
-            <div class='card-header label'>Code</div>
-            <pre>
-                <code class=''>
-                    {JSON.stringify(exampleData, undefined, 2)}
-                </code>
-            </pre>
-        </div>
+        <CodeEditor model={exampleYaml} on:modelUpdate={onModelUpdate}/>
     </div>
 </main>

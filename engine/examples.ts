@@ -1,6 +1,6 @@
-import { SchemaDocument } from './schema'
+import { ModelDocument } from './schema'
 
-export const simple: SchemaDocument = {
+export const simple: ModelDocument = {
 	dir: 'hor',
 	blocks: [{
 		name: 'A',
@@ -16,7 +16,7 @@ export const simple: SchemaDocument = {
 	}]
 }
 
-export const overlap: SchemaDocument = {
+export const overlap: ModelDocument = {
 	dir: 'hor',
 	blocks: [{
 		name: 'A',
@@ -32,7 +32,7 @@ export const overlap: SchemaDocument = {
 	}]
 }
 
-export const intermediate: SchemaDocument = {
+export const intermediate: ModelDocument = {
 	dir: 'hor',
 	blocks: [{
 		name: 'Grocery Store',

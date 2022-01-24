@@ -8,6 +8,11 @@ module.exports = {
         extend: {
             borderWidth: {
                 '3': '3px',
+            },
+            colors: {
+                shade: {
+                    code: colors.stone['800']
+                }
             }
         },
     },

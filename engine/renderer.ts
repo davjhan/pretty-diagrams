@@ -1,14 +1,14 @@
 import { drawArrow } from './arrows'
-import { Arrow, BlockSchema, SchemaDocument } from './schema'
+import { ArrowModel, BlockModel, ModelDocument } from './schema'
 import { DOMRect, Svg } from '@svgdotjs/svg.js'
 
 function render(document: Document, element: string): Element {
 	return document.createRange().createContextualFragment(element).firstElementChild
 }
 
-function createBlock(document: Document, schema: BlockSchema): Element {
+function createBlock(document: Document, block: BlockModel): Element {
 	let cardStyles, nameStyles = ''
-	if (schema.children) {
+	if (block.children.length > 0) {
 		cardStyles = 'area outlined border-ink bg-shade-primary b'
 		nameStyles = 'label text-ink-shade mb-4'
 	} else {
@@ -16,21 +16,21 @@ function createBlock(document: Document, schema: BlockSchema): Element {
 	}
 	const view = render(document, `
 		<div 
-			id='${ schema.name }'
-		 	class='select-none gap-2 ${ cardStyles } cursor-pointer hover:ring ring-accent'
+			id='${ block.name }'
+		 	class='select-none gap-0 ${ cardStyles } cursor-pointer hover:ring ring-accent'
 		>
-    		<h4 class=' ${ nameStyles }'>${ schema.name }</h4>
+    		<h4 class=' ${ nameStyles }'>${ block.name }</h4>
 		</div>
 		`)
-	schema.children?.forEach(it => view.appendChild(createBlock(document, it)))
+	block.children?.forEach(it => view.appendChild(createBlock(document, it)))
 	return view
 }
 
-export function planBlocks(document: Document, schema: SchemaDocument): DocumentFragment {
+export function planBlocks(document: Document, schema: ModelDocument): DocumentFragment {
 	const flexDir = schema.dir == 'hor' ? 'flex-row' : 'flex-col'
 	const documentFragment = document.createDocumentFragment()
 	const rootDiv = render(document, `
-		<div class='gap-8 ${ flexDir }'></div>
+		<div class='gap-4 ${ flexDir }'></div>
 	`)
 	schema.blocks?.forEach((it, i, arr) => {
 		const next = (i < arr.length - 1) ? arr[i + 1] : undefined
@@ -42,7 +42,7 @@ export function planBlocks(document: Document, schema: SchemaDocument): Document
 			)
 			if (adjacentArrows[0]) {
 				const arrow = adjacentArrows[0]
-				rootDiv.append(render(document, `<span class='label invisible'>${arrow.text}</span>`))
+				rootDiv.append(render(document, `<span class='label '>${arrow.text}</span>`))
 			}
 		}
 	})
@@ -56,7 +56,7 @@ export function drawArrows(context: RenderContext) {
 
 export type RenderContext = {
 	svg: Svg
-	schema: SchemaDocument
+	schema: ModelDocument
 	domLayer: Element
 	rootBounds: DOMRect
 }
